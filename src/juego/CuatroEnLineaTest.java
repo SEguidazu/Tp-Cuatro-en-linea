@@ -140,7 +140,7 @@ public class CuatroEnLineaTest {
 	
 	@Test (expected = Error.class)
 	public void testNoGanoPrimero() {
-		CuatroEnLinea juego = new CuatroEnLinea(7, 4, "Mauro", "Santiago");
+		CuatroEnLinea juego = new CuatroEnLinea(7, 4, "Josefina", "Santiago");
 
 		juego.soltarFicha(1); // jose
 		juego.soltarFicha(2); // santi
