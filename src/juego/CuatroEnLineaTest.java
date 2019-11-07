@@ -7,8 +7,8 @@ import org.junit.Test;
 public class CuatroEnLineaTest {
 
 	@Test
-	public void CuatroHorizontal() {
-		CuatroEnLinea juego = new CuatroEnLinea(7, 7, "Gian", "Mauro");
+	public void testCuatroHorizontal() {
+		CuatroEnLinea juego = new CuatroEnLinea(7, 7, "Santiago", "Josefina");
 		juego.soltarFicha(1);
 		juego.soltarFicha(2);
 		juego.soltarFicha(1);
@@ -16,12 +16,13 @@ public class CuatroEnLineaTest {
 		juego.soltarFicha(1);
 		juego.soltarFicha(2);
 		juego.soltarFicha(1);
-		assertEquals("Gian", juego.obtenerGanador());
+		assertEquals("Santiago", juego.obtenerGanador());
 	}
 
+	
 	@Test
-	public void CuatroEnDiagonal() {
-		CuatroEnLinea juego = new CuatroEnLinea(7, 7, "Gian", "Mauro");
+	public void testCuatroEnDiagonal() {
+		CuatroEnLinea juego = new CuatroEnLinea(7, 7, "Santiago", "Josefina");
 		juego.soltarFicha(1);
 		juego.soltarFicha(2);
 		juego.soltarFicha(2);
@@ -33,12 +34,13 @@ public class CuatroEnLineaTest {
 		juego.soltarFicha(4);
 		juego.soltarFicha(4);
 		juego.soltarFicha(4);
-		assertEquals("Gian", juego.obtenerGanador());
+		assertEquals("Santiago", juego.obtenerGanador());
 	}
 
+	
 	@Test
-	public void ComprobarEmpate() {
-		CuatroEnLinea juego = new CuatroEnLinea(4, 4, "Gian", "Mauro");
+	public void testComprobarEmpate() {
+		CuatroEnLinea juego = new CuatroEnLinea(4, 4, "Santiago", "Josefina");
 		juego.soltarFicha(1);
 		juego.soltarFicha(1);
 		juego.soltarFicha(2);
@@ -60,95 +62,98 @@ public class CuatroEnLineaTest {
 
 
 	@Test(expected = Error.class)
-	public void ColumnaNoEstaEnElIntervalo() {
-		CuatroEnLinea juego = new CuatroEnLinea(4, 4, "Gian", "Mauro");
+	public void testColumnaNoEstaEnElIntervalo() {
+		CuatroEnLinea juego = new CuatroEnLinea(4, 4, "Santiago", "Josefina");
 		juego.soltarFicha(5);
 	}
 
+	
 	@Test(expected = Error.class)
-	public void FilaNoEstaEnElIntervalo() {
-		CuatroEnLinea juego = new CuatroEnLinea(4, 4, "Gian", "Mauro");
+	public void testFilaNoEstaEnElIntervalo() {
+		CuatroEnLinea juego = new CuatroEnLinea(4, 4, "Santiago", "Josefina");
 		juego.obtenerCasillero(5, 4);
 		juego.obtenerCasillero(4, 5);
 	}
+	
+	
 	@Test
-	public void test() {
-		CuatroEnLinea juego = new CuatroEnLinea(7, 7, "Gian", "Mauro");
+	public void testNoHayGanador() {
+		CuatroEnLinea juego = new CuatroEnLinea(7, 7, "Santiago", "Josefina");
 		juego.soltarFicha(1);
 		juego.soltarFicha(2);
 		juego.soltarFicha(2);
 		juego.soltarFicha(3);
 		assertEquals(false, juego.hayGanador());
 	}
+	
+	
 	@Test (expected = Error.class)
-	public void CrearJuegoConMenosDeCuatroFilasOColumnas() {
-		CuatroEnLinea juego = new CuatroEnLinea(3, 7, "Gian", "Mauro");
-
-
+	public void testCrearJuegoConMenosDeCuatroFilas() {
+		CuatroEnLinea juego = new CuatroEnLinea(3, 7, "Santiago", "Josefina");
 	}
-	@Test 
-	public void cuatroEnLineaEnDiagnalIzquierda() {
-		
 	
-		CuatroEnLinea juego = new CuatroEnLinea(7, 4, "Mauro", "Gian");
-
-		juego.soltarFicha(1); // mauro
-		juego.soltarFicha(1); // gian
-		juego.soltarFicha(1); // mauro
-		juego.soltarFicha(1); // gian
-		juego.soltarFicha(1); // mauro
-		juego.soltarFicha(2); // gian
-		juego.soltarFicha(2); // mauro
-		juego.soltarFicha(2);// gian
-		juego.soltarFicha(3); // mauro
-		juego.soltarFicha(3);// gian
-		juego.soltarFicha(1);// mauro
-		juego.soltarFicha(4);// gian
-		
-		
-		assertEquals("Gian", juego.obtenerGanador());
-		
-		
-	}
-
-	@Test 
-	public void cuatroEnLineaEnVertical() {
-		
 	
-		CuatroEnLinea juego = new CuatroEnLinea(7, 4, "Mauro", "Gian");
-
-		juego.soltarFicha(1); // mauro
-		juego.soltarFicha(2); // gian
-		juego.soltarFicha(1); // mauro
-		juego.soltarFicha(2); // gian
-		juego.soltarFicha(1); // mauro
-		juego.soltarFicha(2); // gian
-		juego.soltarFicha(1); // mauro
-		
-		
-		assertEquals("Mauro", juego.obtenerGanador());
-		
-	}
 	@Test (expected = Error.class)
-	public void noGanoPrimero() {
-		
+	public void testCrearJuegoConMenosDeCuatroColumnas() {
+		CuatroEnLinea juego = new CuatroEnLinea(5, 3, "Santiago", "Josefina");
+	}
 	
-		CuatroEnLinea juego = new CuatroEnLinea(7, 4, "Mauro", "Gian");
+	
+	@Test 
+	public void testCuatroEnLineaDiagnalIzquierda() {
+		CuatroEnLinea juego = new CuatroEnLinea(7, 4, "Josefina", "Santiago");
 
-		juego.soltarFicha(1); // mauro
-		juego.soltarFicha(2); // gian
-		juego.soltarFicha(1); // mauro
-		juego.soltarFicha(2); // gian
-		juego.soltarFicha(1); // mauro
-		juego.soltarFicha(2); // gian
-		juego.soltarFicha(1); // mauro, ya gano.
-		juego.soltarFicha(2); // gian
+		juego.soltarFicha(1); // jose
+		juego.soltarFicha(1); // santi
+		juego.soltarFicha(1); // jose
+		juego.soltarFicha(1); // santi
+		juego.soltarFicha(1); // jose
+		juego.soltarFicha(2); // santi
+		juego.soltarFicha(2); // jose
+		juego.soltarFicha(2); // santi
+		juego.soltarFicha(3); // jose
+		juego.soltarFicha(3); // santi
+		juego.soltarFicha(1); // jose
+		juego.soltarFicha(4); // santi
 		
 		
-		assertEquals("Gian", juego.obtenerGanador());;
+		assertEquals("Santiago", juego.obtenerGanador());
+	}
+
+	
+	@Test 
+	public void testCuatroEnLineaVertical() {
+		CuatroEnLinea juego = new CuatroEnLinea(7, 4, "Josefina", "Santiago");
+
+		juego.soltarFicha(1); // jose
+		juego.soltarFicha(2); // santi
+		juego.soltarFicha(1); // jose
+		juego.soltarFicha(2); // santi
+		juego.soltarFicha(1); // jose
+		juego.soltarFicha(2); // santi
+		juego.soltarFicha(1); // jose
 		
+		
+		assertEquals("Josefina", juego.obtenerGanador());
+	}
+	
+	
+	@Test (expected = Error.class)
+	public void testNoGanoPrimero() {
+		CuatroEnLinea juego = new CuatroEnLinea(7, 4, "Mauro", "Santiago");
+
+		juego.soltarFicha(1); // jose
+		juego.soltarFicha(2); // santi
+		juego.soltarFicha(1); // jose
+		juego.soltarFicha(2); // santi
+		juego.soltarFicha(1); // jose
+		juego.soltarFicha(2); // santi
+		juego.soltarFicha(1); // jose, ya gano.
+		juego.soltarFicha(2); // santi
+		
+		
+		assertEquals("Santiago", juego.obtenerGanador());;
 	}	
-
 	
 
 }

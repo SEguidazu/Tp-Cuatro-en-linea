@@ -150,7 +150,7 @@ public class CuatroEnLinea {
 			return true;
 		}
 		if (fila < 1 || fila > contarFilas()) {
-			throw new Error("Esta Fila no Existe");
+			throw new Error("Esta fila no existe.");
 		}
 		return false;
 	}
@@ -163,7 +163,7 @@ public class CuatroEnLinea {
 			return true;
 		}
 		if (columna < 1 || columna > contarColumnas()) {
-			throw new Error("Esta Columna no Existe");
+			throw new Error("Esta columna no existe.");
 		}
 		return false;
 	}
@@ -206,8 +206,7 @@ public class CuatroEnLinea {
 					}
 				}
 
-				if (i + 3 < contarFilas() && j + 3 < contarColumnas()) { // cua
-																			// diagonal
+				if (i + 3 < contarFilas() && j + 3 < contarColumnas()) { // cuatro en linea diagonal
 					if (tablero[i][j] == color
 							&& tablero[i + 1][j + 1] == color
 							&& tablero[i + 2][j + 2] == color
@@ -222,7 +221,6 @@ public class CuatroEnLinea {
 				}
 			}
 		}
-
 		return resultado;
 	}
 
@@ -231,7 +229,6 @@ public class CuatroEnLinea {
 	 * mismo color.
 	 */
 	private void encontrarGanador() {
-
 		if (hayCuatroSeguidos(Casillero.ROJO)) {
 			jugadorGanador = jugadorRojo;
 			ganador = true;
