@@ -90,17 +90,15 @@ public class CuatroEnLinea {
 		if (!hayGanador() && columnaEstaEnElIntervalo(columna)) {
 			int turno = 0;
 			columna--;
-			for (int a = tablero.length - 1; a >= 0 && turno == 0; a--) {
-				if (tablero[a][columna] == Casillero.VACIO
-						&& turnoDeJugador == "Rojo") {
-					tablero[a][columna] = Casillero.ROJO;
+			for (int i = tablero.length - 1; i >= 0 && turno == 0; i--) {
+				if (tablero[i][columna] == Casillero.VACIO && turnoDeJugador == "Rojo") {
+					tablero[i][columna] = Casillero.ROJO;
 					turnoDeJugador = "Amarillo";
 					turno++;
 
 				}
-				if (tablero[a][columna] == Casillero.VACIO
-						&& turnoDeJugador == "Amarillo") {
-					tablero[a][columna] = Casillero.AMARILLO;
+				if (tablero[i][columna] == Casillero.VACIO && turnoDeJugador == "Amarillo") {
+					tablero[i][columna] = Casillero.AMARILLO;
 					turnoDeJugador = "Rojo";
 					turno++;
 
