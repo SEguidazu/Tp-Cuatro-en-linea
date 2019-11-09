@@ -25,29 +25,26 @@ public class CuatroEnLinea {
 	 * @param jugadorAmarillo
 	 *            : nombre del jugador con fichas amarillas.
 	 */
-	int filas;
-	int columnas;
-	String jugadorRojo;
-	String jugadorAmarillo;
-	Casillero[][] tablero;
-	String turnoDeJugador = "Rojo";
+	
+	private String jugadorRojo;
+	private String jugadorAmarillo;
+	private Casillero[][] tablero;
+	private String turnoDeJugador = "Rojo";
 	private boolean ganador = false;
-	String jugadorGanador;
+	private String jugadorGanador;
 
 	public CuatroEnLinea(int filas, int columnas, String jugadorRojo, String jugadorAmarillo) {
 		if (filas < 4 || columnas < 4) {
 			throw new Error("Columnas y Filas deben ser mayores a 4");
 		}
-		tablero = new Casillero[filas][columnas];
-		for (int i = 0; i < tablero.length; i++) {
-			for (int j = 0; j < tablero[i].length; j++) {
-				tablero[i][j] = Casillero.VACIO;
+		this.tablero = new Casillero[filas][columnas];
+		for (int i = 0; i < this.tablero.length; i++) {
+			for (int j = 0; j < this.tablero[i].length; j++) {
+				this.tablero[i][j] = Casillero.VACIO;
 			}
 		}
 		this.jugadorAmarillo = jugadorAmarillo;
 		this.jugadorRojo = jugadorRojo;
-		this.columnas = columnas;
-		this.filas = filas;
 	}
 
 	/**
@@ -55,7 +52,7 @@ public class CuatroEnLinea {
 	 * tablero.
 	 */
 	public int contarFilas() {
-		return filas;
+		return this.tablero.length;
 	}
 
 	/**
@@ -63,7 +60,7 @@ public class CuatroEnLinea {
 	 * tablero.
 	 */
 	public int contarColumnas() {
-		return columnas;
+		return this.tablero[0].length;
 	}
 
 	/**
@@ -75,11 +72,11 @@ public class CuatroEnLinea {
 	 * @param columna
 	 */
 	public Casillero obtenerCasillero(int fila, int columna) {
-		Casillero contenido = Casillero.VACIO;
-		if (columnaEstaEnElIntervalo(columna) && filaEstaEnElIntervalo(fila)) {
-			contenido = tablero[fila - 1][columna - 1];
+		if (filaEstaEnElIntervalo(fila) && columnaEstaEnElIntervalo(columna)) {
+			return tablero[fila - 1][columna - 1];
+		} else  {
+			throw new Error("La ubicacion (fila, columna) no existe.");
 		}
-		return contenido;
 	}
 
 	/**
