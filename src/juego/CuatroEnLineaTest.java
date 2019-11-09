@@ -6,6 +6,30 @@ import org.junit.Test;
 public class CuatroEnLineaTest {
 
 	
+	@Test (expected=Error.class)
+	public void testNombreJugadorRojoVacio() {
+		new CuatroEnLinea(5, 7, "", "Josefina");
+	}
+	
+	
+	@Test (expected=Error.class)
+	public void testNombreJugadorAmarilloVacio() {
+		new CuatroEnLinea(5, 7, "Santiago", "");
+	}
+	
+	
+	@Test (expected=Error.class)
+	public void testNombreJugadorRojoSoloEspacio() {
+		new CuatroEnLinea(5, 7, " ", "Josefina");
+	}
+	
+	
+	@Test (expected=Error.class)
+	public void testNombreJugadorAmarilloSoloEspacio() {
+		new CuatroEnLinea(5, 7, "Santiago", " ");
+	}
+	
+	
 	@Test
 	public void testContarColumnas() {
 		CuatroEnLinea juego = new CuatroEnLinea(5, 7, "Santiago", "Josefina");

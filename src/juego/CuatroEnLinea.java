@@ -33,20 +33,56 @@ public class CuatroEnLinea {
 	private boolean ganador = false;
 	private String jugadorGanador;
 
+	
 	public CuatroEnLinea(int filas, int columnas, String jugadorRojo, String jugadorAmarillo) {
-		if (filas < 4 || columnas < 4) {
-			throw new Error("Columnas y Filas deben ser mayores a 4");
-		}
+		examinaFilasYColumnas(filas, columnas);
 		this.tablero = new Casillero[filas][columnas];
+		vaciarTodosLosCasilleros();
+		examinaNombresYAsignaJugadores(jugadorRojo, jugadorAmarillo);
+	}	
+
+	
+	/**
+	 * post: Corrobora que las filas y columnas enviadas como parametros cumplan con la condicion 
+	 * de tamaño necesaria.
+	 */
+	private void examinaFilasYColumnas(int filas, int columnas) {
+		if (filas < 4 || filas > 8) {
+			throw new Error("Las filas deben ser mayores a 4 y menores a 8 (inclusive).");
+		} else if (columnas < 4 || columnas > 16) {
+			throw new Error("Las columnas deben ser mayores a 4 y menores a 16 (inclusive).");
+		}		
+	}
+	
+	
+	/**
+	 * post: Vacia todos los casilleros del tablero.
+	 */
+	private void vaciarTodosLosCasilleros() {
 		for (int i = 0; i < this.tablero.length; i++) {
 			for (int j = 0; j < this.tablero[i].length; j++) {
 				this.tablero[i][j] = Casillero.VACIO;
 			}
 		}
-		this.jugadorAmarillo = jugadorAmarillo;
-		this.jugadorRojo = jugadorRojo;
 	}
 
+	
+	/**
+	 * post: Examina si los parametros de tipo String recibidos en el constructor como jugadorRojo y
+	 * jugadorAmarillo tienen algun valor, de nos ser se lanzara un error.
+	 */
+	private void examinaNombresYAsignaJugadores(String jugadorRojo, String jugadorAmarillo) {
+		if (jugadorRojo.trim().length() == 0) {
+			throw new Error("Debe asignarle un nombre al jugador Rojo.");
+		} else if (jugadorAmarillo.trim().length() == 0) {
+			throw new Error("Debe asignarle un nombre al jugador Amarillo.");
+		} else {
+			this.jugadorRojo = jugadorRojo;
+			this.jugadorAmarillo = jugadorAmarillo;
+		}
+	}
+	
+	
 	/**
 	 * post: devuelve la cantidad máxima de fichas que se pueden apilar en el
 	 * tablero.
@@ -55,6 +91,7 @@ public class CuatroEnLinea {
 		return this.tablero.length;
 	}
 
+	
 	/**
 	 * post: devuelve la cantidad máxima de fichas que se pueden alinear en el
 	 * tablero.
@@ -63,6 +100,7 @@ public class CuatroEnLinea {
 		return this.tablero[0].length;
 	}
 
+	
 	/**
 	 * pre : fila está en el intervalo [1, contarFilas()], columnas está en el
 	 * intervalo [1, contarColumnas()]. post: indica qué ocupa el casillero en
@@ -79,6 +117,7 @@ public class CuatroEnLinea {
 		}
 	}
 
+	
 	/**
 	 * pre : el juego no terminó, columna está en el intervalo [1,
 	 * contarColumnas()] y aún queda un Casillero.VACIO en la columna indicada.
@@ -94,19 +133,18 @@ public class CuatroEnLinea {
 					this.tablero[i][columna - 1] = Casillero.ROJO;
 					this.turnoDeJugador = "Amarillo";
 					turno++;
-
 				}
 				if (this.tablero[i][columna - 1] == Casillero.VACIO && this.turnoDeJugador == "Amarillo") {
 					this.tablero[i][columna - 1] = Casillero.AMARILLO;
 					this.turnoDeJugador = "Rojo";
 					turno++;
-
 				}
 				encontrarGanador();
 			}
 		}
 	}
 
+	
 	/**
 	 * post: indica si el juego terminó porque uno de los jugadores ganó o no
 	 * existen casilleros vacíos.
@@ -115,6 +153,7 @@ public class CuatroEnLinea {
 		return hayGanador() || !hayEspacio();
 	}
 
+	
 	/**
 	 * post: indica si el juego terminó y tiene un ganador.
 	 */
@@ -122,6 +161,7 @@ public class CuatroEnLinea {
 		return this.ganador;
 	}
 
+	
 	/**
 	 * pre : el juego terminó. post: devuelve el nombre del jugador que ganó el
 	 * juego.
@@ -130,6 +170,7 @@ public class CuatroEnLinea {
 		return this.jugadorGanador;
 	}
 
+	
 	/**
 	 * post: indica si fila esta en el intervalo [1, contarFilas()]
 	 */
@@ -137,13 +178,15 @@ public class CuatroEnLinea {
 		return fila >= 1 && fila <= contarFilas();
 	}
 
+	
 	/**
 	 * post: indica si columna esta en el intervalo [1, contarColumna()]
 	 */
 	private boolean columnaEstaEnElIntervalo(int columna) {
-		return (columna >= 1) && (columna <= contarColumnas());
+		return columna >= 1 && columna <= contarColumnas();
 	}
 
+	
 	/**
 	 * post: indica si columna esta en el intervalo [1, contarColumna()]
 	 */
@@ -158,6 +201,7 @@ public class CuatroEnLinea {
 			return true;
 		}
 	}
+	
 	
 	/**
 	 * post: indica si hay espacio vacio en el tablero
@@ -175,6 +219,7 @@ public class CuatroEnLinea {
 		return resultado;
 	}
 	
+	
 	/**
 	 * post: indica si hay espacio vacio en la columna
 	 */
@@ -188,6 +233,7 @@ public class CuatroEnLinea {
 		return resultado;
 	}
 
+	
 	/**
 	 * post: indica si hay cuatro casilleros en linea con el mismo color
 	 */
@@ -200,13 +246,12 @@ public class CuatroEnLinea {
 						resultado = true;
 					}
 				}
-				if (i + 3 < contarFilas()) { // cuatro en linea vertical
+				if (i + 3 < contarFilas()) {
 					if (cuatroEnLineaVertical(i, j, color)) {
 						resultado = true;
 					}
 				}
-
-				if (i + 3 < contarFilas() && j + 3 < contarColumnas()) { // cuatro en linea diagonal
+				if (i + 3 < contarFilas() && j + 3 < contarColumnas()) {
 					if (cuatroEnLineaDiagonal(i, j, color)) {
 						resultado = true;
 					}
@@ -217,6 +262,7 @@ public class CuatroEnLinea {
 		return resultado;
 	}
 	
+	
 	/**
 	 * post: Devuelve si hay 4 fichas del mismo color de manera horizontal
 	 */
@@ -226,6 +272,7 @@ public class CuatroEnLinea {
 			&& this.tablero[fila][columna + 2] == color
 			&& this.tablero[fila][columna + 3] == color;
 	}
+	
 
 	/**
 	 * post: Devuelve si hay 4 fichas del mismo color de manera vertical
@@ -236,6 +283,7 @@ public class CuatroEnLinea {
 			&& this.tablero[fila + 2][columna] == color
 			&& this.tablero[fila + 3][columna] == color;
 	}
+	
 	
 	/**
 	 * post: Devuelve si hay 4 fichas del mismo color de manera diagonal
@@ -250,6 +298,7 @@ public class CuatroEnLinea {
 			&& this.tablero[fila + 2][columna + 1] == color
 			&& this.tablero[fila + 3][columna] == color);
 	}
+	
 	
 	/**
 	 * pre: El juego termino y se encontraron cuatro casilleros en linea del
