@@ -73,7 +73,7 @@ public class CuatroEnLinea {
 	 */
 	public Casillero obtenerCasillero(int fila, int columna) {
 		if (filaEstaEnElIntervalo(fila) && columnaEstaEnElIntervalo(columna)) {
-			return tablero[fila - 1][columna - 1];
+			return this.tablero[fila - 1][columna - 1];
 		} else  {
 			throw new Error("La ubicacion (fila, columna) no existe.");
 		}
@@ -87,19 +87,18 @@ public class CuatroEnLinea {
 	 * @param columna
 	 */
 	public void soltarFicha(int columna) {
-		if (!hayGanador() && columnaEstaEnElIntervalo(columna)) {
+		if (condicionesSoltarFicha(columna)) {
 			int turno = 0;
-			columna--;
-			for (int i = tablero.length - 1; i >= 0 && turno == 0; i--) {
-				if (tablero[i][columna] == Casillero.VACIO && turnoDeJugador == "Rojo") {
-					tablero[i][columna] = Casillero.ROJO;
-					turnoDeJugador = "Amarillo";
+			for (int i = this.tablero.length - 1; i >= 0 && turno == 0; i--) {
+				if (this.tablero[i][columna - 1] == Casillero.VACIO && this.turnoDeJugador == "Rojo") {
+					this.tablero[i][columna - 1] = Casillero.ROJO;
+					this.turnoDeJugador = "Amarillo";
 					turno++;
 
 				}
-				if (tablero[i][columna] == Casillero.VACIO && turnoDeJugador == "Amarillo") {
-					tablero[i][columna] = Casillero.AMARILLO;
-					turnoDeJugador = "Rojo";
+				if (this.tablero[i][columna - 1] == Casillero.VACIO && this.turnoDeJugador == "Amarillo") {
+					this.tablero[i][columna - 1] = Casillero.AMARILLO;
+					this.turnoDeJugador = "Rojo";
 					turno++;
 
 				}
@@ -113,20 +112,14 @@ public class CuatroEnLinea {
 	 * existen casilleros vacíos.
 	 */
 	public boolean termino() {
-		boolean resultado = false;
-
-		if (hayGanador() || !hayEspacio()) {
-			resultado = true;
-		}
-
-		return resultado;
+		return hayGanador() || !hayEspacio();
 	}
 
 	/**
 	 * post: indica si el juego terminó y tiene un ganador.
 	 */
 	public boolean hayGanador() {
-		return ganador;
+		return this.ganador;
 	}
 
 	/**
@@ -134,46 +127,62 @@ public class CuatroEnLinea {
 	 * juego.
 	 */
 	public String obtenerGanador() {
-		return jugadorGanador;
+		return this.jugadorGanador;
 	}
 
 	/**
 	 * post: indica si fila esta en el intervalo [1, contarFilas()]
 	 */
-	public boolean filaEstaEnElIntervalo(int fila) {
-		if (fila >= 1 && fila <= contarFilas()) {
-			return true;
-		}
-		if (fila < 1 || fila > contarFilas()) {
-			throw new Error("Esta fila no existe.");
-		}
-		return false;
+	private boolean filaEstaEnElIntervalo(int fila) {
+		return fila >= 1 && fila <= contarFilas();
 	}
 
 	/**
 	 * post: indica si columna esta en el intervalo [1, contarColumna()]
 	 */
-	public boolean columnaEstaEnElIntervalo(int columna) {
-		if (columna >= 1 && columna <= contarColumnas()) {
-			return true;
-		}
-		if (columna < 1 || columna > contarColumnas()) {
-			throw new Error("Esta columna no existe.");
-		}
-		return false;
+	private boolean columnaEstaEnElIntervalo(int columna) {
+		return (columna >= 1) && (columna <= contarColumnas());
 	}
 
 	/**
+	 * post: indica si columna esta en el intervalo [1, contarColumna()]
+	 */
+	private boolean condicionesSoltarFicha(int columna) {
+		if (termino()) {
+			throw new Error("El juego ha terminado.");
+		} else if (!columnaEstaEnElIntervalo(columna)) {
+			throw new Error("Esta columna no existe.");
+		} else if (!hayEspacioEnColumna(columna)) {
+			throw new Error("No hay más espacio en la columna.");
+		} else {
+			return true;
+		}
+	}
+	
+	/**
 	 * post: indica si hay espacio vacio en el tablero
 	 */
-	boolean hayEspacio() {
+	private boolean hayEspacio() {
 		boolean resultado = false;
-		for (int i = 0; i < tablero.length && resultado == false; i++) {
-			for (int j = 0; j < tablero[i].length && resultado == false; j++) {
-				if (tablero[i][j] == Casillero.VACIO) {
+		for (int i = 0; i < this.tablero.length && resultado == false; i++) {
+			for (int j = 0; j < this.tablero[i].length && resultado == false; j++) {
+				if (this.tablero[i][j] == Casillero.VACIO) {
 					resultado = true;
 				}
 
+			}
+		}
+		return resultado;
+	}
+	
+	/**
+	 * post: indica si hay espacio vacio en la columna
+	 */
+	private boolean hayEspacioEnColumna(int columna) {
+		boolean resultado = false;
+		for (int i = this.tablero.length - 1; i >= 0 && resultado == false; i--) {
+			if (this.tablero[i][columna - 1] == Casillero.VACIO) {
+				resultado = true;
 			}
 		}
 		return resultado;
@@ -186,30 +195,19 @@ public class CuatroEnLinea {
 		boolean resultado = false;
 		for (int i = 0; i < tablero.length; i++) {
 			for (int j = 0; j < tablero[i].length; j++) {
-				if (j + 3 < contarColumnas()) { // cuatro en linea horizontal
-					if (tablero[i][j] == color && tablero[i][j + 1] == color
-							&& tablero[i][j + 2] == color
-							&& tablero[i][j + 3] == color) {
+				if (j + 3 < contarColumnas()) {
+					if (cuatroEnLineaHorizontal(i, j, color)) {
 						resultado = true;
 					}
 				}
 				if (i + 3 < contarFilas()) { // cuatro en linea vertical
-					if (tablero[i][j] == color && tablero[i + 1][j] == color
-							&& tablero[i + 2][j] == color
-							&& tablero[i + 3][j] == color) {
+					if (cuatroEnLineaVertical(i, j, color)) {
 						resultado = true;
 					}
 				}
 
 				if (i + 3 < contarFilas() && j + 3 < contarColumnas()) { // cuatro en linea diagonal
-					if (tablero[i][j] == color
-							&& tablero[i + 1][j + 1] == color
-							&& tablero[i + 2][j + 2] == color
-							&& tablero[i + 3][j + 3] == color
-							|| tablero[i][j + 3] == color
-							&& tablero[i + 1][j + 2] == color
-							&& tablero[i + 2][j + 1] == color
-							&& tablero[i + 3][j] == color) {
+					if (cuatroEnLineaDiagonal(i, j, color)) {
 						resultado = true;
 					}
 
@@ -218,19 +216,53 @@ public class CuatroEnLinea {
 		}
 		return resultado;
 	}
+	
+	/**
+	 * post: Devuelve si hay 4 fichas del mismo color de manera horizontal
+	 */
+	private boolean cuatroEnLineaHorizontal(int fila, int columna, Casillero color) {
+		return this.tablero[fila][columna] == color 
+			&& this.tablero[fila][columna + 1] == color
+			&& this.tablero[fila][columna + 2] == color
+			&& this.tablero[fila][columna + 3] == color;
+	}
 
+	/**
+	 * post: Devuelve si hay 4 fichas del mismo color de manera vertical
+	 */
+	private boolean cuatroEnLineaVertical(int fila, int columna, Casillero color) {
+		return this.tablero[fila][columna] == color 
+			&& this.tablero[fila + 1][columna] == color
+			&& this.tablero[fila + 2][columna] == color
+			&& this.tablero[fila + 3][columna] == color;
+	}
+	
+	/**
+	 * post: Devuelve si hay 4 fichas del mismo color de manera diagonal
+	 */
+	private boolean cuatroEnLineaDiagonal(int fila, int columna, Casillero color) {
+		return (this.tablero[fila][columna] == color
+			&& this.tablero[fila + 1][columna + 1] == color
+			&& this.tablero[fila + 2][columna + 2] == color
+			&& this.tablero[fila + 3][columna + 3] == color)
+			|| (this.tablero[fila][columna + 3] == color
+			&& this.tablero[fila + 1][columna + 2] == color
+			&& this.tablero[fila + 2][columna + 1] == color
+			&& this.tablero[fila + 3][columna] == color);
+	}
+	
 	/**
 	 * pre: El juego termino y se encontraron cuatro casilleros en linea del
 	 * mismo color.
 	 */
 	private void encontrarGanador() {
 		if (hayCuatroSeguidos(Casillero.ROJO)) {
-			jugadorGanador = jugadorRojo;
-			ganador = true;
+			this.jugadorGanador = this.jugadorRojo;
+			this.ganador = true;
 		}
 		if (hayCuatroSeguidos(Casillero.AMARILLO)) {
-			jugadorGanador = jugadorAmarillo;
-			ganador = true;
+			this.jugadorGanador = this.jugadorAmarillo;
+			this.ganador = true;
 		}
 	}
 

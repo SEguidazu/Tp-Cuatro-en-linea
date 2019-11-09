@@ -13,6 +13,7 @@ public class CuatroEnLineaTest {
 		Assert.assertEquals(7, juego.contarColumnas());
 	}
 	
+	
 	@Test
 	public void testContarFilas() {
 		CuatroEnLinea juego = new CuatroEnLinea(5, 7, "Santiago", "Josefina");
@@ -20,12 +21,14 @@ public class CuatroEnLineaTest {
 		Assert.assertEquals(5, juego.contarFilas());
 	}
 	
+	
 	@Test
 	public void testObtenerCasilleroVacio() {
 		CuatroEnLinea juego = new CuatroEnLinea(5, 7, "Santiago", "Josefina");
 		
 		Assert.assertEquals(Casillero.VACIO, juego.obtenerCasillero(5, 4));
 	}
+	
 	
 	@Test
 	public void testCuatroHorizontal() {
@@ -83,7 +86,7 @@ public class CuatroEnLineaTest {
 		
 		Assert.assertEquals(null, juego.obtenerGanador());
 	}
-
+	
 
 	@Test(expected = Error.class)
 	public void testColumnaNoEstaEnElIntervalo() {
@@ -96,6 +99,14 @@ public class CuatroEnLineaTest {
 	public void testFilaNoEstaEnElIntervalo() {
 		CuatroEnLinea juego = new CuatroEnLinea(4, 4, "Santiago", "Josefina");
 		juego.obtenerCasillero(5, 4);
+	}
+	
+	
+	@Test
+	public void testJuegoNoTermino() {
+		CuatroEnLinea juego = new CuatroEnLinea(4, 4, "Santiago", "Josefina");
+		
+		Assert.assertFalse(juego.termino());
 	}
 	
 	
